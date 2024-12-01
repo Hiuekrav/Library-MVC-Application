@@ -3,8 +3,11 @@ package pl.pas.dto.create;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import pl.pas.dto.ValidationConstants;
 
+@Builder
 public record UserCreateDTO(
 
         @NotBlank(message = ValidationConstants.FIRST_NAME_BLANK)

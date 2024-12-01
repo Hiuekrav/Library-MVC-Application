@@ -1,26 +1,20 @@
 package pl.pas.mvc.services.implementations;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import jakarta.annotation.PostConstruct;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import pl.pas.mvc.services.interfaces.IBookClient;
-import pl.pas.rest.model.Book;
+import pl.pas.dto.create.UserCreateDTO;
+import pl.pas.dto.output.ExceptionOutputDTO;
 
-import java.io.InputStream;
-import java.net.URI;
 import java.util.List;
 
-@NoArgsConstructor
 @Service
-public class BookClient implements IBookClient {
+public class UserMvcService {
 
     @Value("${api.address}")
     private String apiAddress;
@@ -32,27 +26,29 @@ public class BookClient implements IBookClient {
 
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
+
     @PostConstruct
     public void init() {
         String serverAddress = "http://" + apiAddress + ":" + apiPort;
         this.restClient = RestClient.builder().baseUrl(serverAddress).build();
     }
 
-    public List<Book> findAll() {
-        return restClient.get()
-                .uri("api/books/all")
+
+    public String registerUser(UserCreateDTO userCreateDTO) {
+        return restClient.post()
+                .uri("/api/users/create-reader")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(userCreateDTO)
                 .exchange(
-                        ((clientRequest, clientResponse) ->{
-                            if (clientResponse.getStatusCode() == HttpStatus.OK
-                                    || clientResponse.getStatusCode() == HttpStatus.NO_CONTENT)  {
+                        (clientRequest, clientResponse) -> {
+                            if (!clientResponse.getStatusCode().is2xxSuccessful()) {
+                                String response = clientResponse.getBody().toString();
+                                System.out.println(">>>> "+response);
+                                List<ExceptionOutputDTO> list = objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
                                 return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
                             }
-                            else {
-                                //todo connection error message?
-                                return null;
-                            }
-                        })
-
+                            return "success";
+                        }
                 );
     }
 }

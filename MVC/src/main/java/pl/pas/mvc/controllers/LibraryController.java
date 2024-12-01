@@ -1,12 +1,17 @@
 package pl.pas.mvc.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.pas.mvc.services.implementations.BookClient;
+import pl.pas.dto.create.UserCreateDTO;
+import pl.pas.mvc.services.implementations.BookMvcService;
+import pl.pas.mvc.services.implementations.UserMvcService;
 import pl.pas.rest.model.Book;
 
 import java.util.List;
@@ -15,23 +20,43 @@ import java.util.List;
 @Controller
 public class LibraryController {
 
-    private final BookClient bookClient;
+    private final BookMvcService bookMvcService;
+    private final UserMvcService userMvcService;
 
     @GetMapping
     public String getMainPage() {
         return "main";
     }
 
-    @RequestMapping("/books")
+    @GetMapping("/books")
     public String getBooksPage(Model model) {
-        List<Book> books = bookClient.findAll();
+        List<Book> books = bookMvcService.findAll();
         model.addAttribute("books", books);
         return "books";
     }
 
-    @RequestMapping("/register")
+    @GetMapping("/register")
     public String getRegisterPage(Model model) {
+        model.addAttribute("userCreateDTO",UserCreateDTO.builder().build());
         return "register";
+    }
+
+    @PostMapping("/submit")
+    public String registerUser(@Valid @ModelAttribute UserCreateDTO userCreateDTO,
+                               BindingResult bindingResult, Model model) {
+
+        String result = userMvcService.registerUser(userCreateDTO);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userCreateDTO", userCreateDTO);
+        }
+
+        //if (!result.equals("success")) {
+        //    model.addAttribute("error", result);
+        //
+        //}
+
+        return "redirect:/register";
     }
 
 }

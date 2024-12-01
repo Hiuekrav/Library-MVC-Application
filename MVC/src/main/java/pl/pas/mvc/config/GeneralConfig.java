@@ -8,6 +8,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @PropertySource(value = {
        "classpath:api.properties"
 })
-@EnableWebMvc
 public class GeneralConfig {
 }
