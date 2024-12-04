@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.pas.dto.create.UserCreateDTO;
 import pl.pas.mvc.services.implementations.BookMvcService;
 import pl.pas.mvc.services.implementations.UserMvcService;
@@ -42,20 +43,15 @@ public class LibraryController {
     }
 
     @PostMapping("/submit")
-    public String registerUser(@Valid @ModelAttribute UserCreateDTO userCreateDTO,
-                               BindingResult bindingResult, Model model) {
+    public String registerUser(@Valid @ModelAttribute UserCreateDTO userCreateDTO, RedirectAttributes redirectAttributes) {
 
         String result = userMvcService.registerUser(userCreateDTO);
 
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("userCreateDTO", userCreateDTO);
+        if (!result.equals("success")) {
+            redirectAttributes.addFlashAttribute("error", result);
+            // todo zrobic aby nie czysciło formularza po powtórzeniu emaila?
+            // redirectAttributes.addFlashAttribute("userCreateDTO", userCreateDTO); nie dziala :(
         }
-
-        //if (!result.equals("success")) {
-        //    model.addAttribute("error", result);
-        //
-        //}
-
         return "redirect:/register";
     }
 

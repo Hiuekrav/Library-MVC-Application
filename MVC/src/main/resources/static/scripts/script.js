@@ -5,9 +5,31 @@ window.addEventListener('DOMContentLoaded', function () {
         .getElementsByClassName('needs-validation');
 
     form[0].addEventListener('submit', function (event) {
+
+        let inputs = document.getElementsByTagName("input");
+        console.log(inputs)
+
+        for (let i=0; i <inputs.length; i++) {
+            console.log("i:" +i)
+            console.log("input id:" +inputs[i].id)
+            console.log("input value:" +inputs[i].value)
+            if (inputs[i].value === '') {
+                event.preventDefault();
+                event.stopPropagation();
+                inputs[i].classList.add('is-invalid')
+            }
+            else if( (inputs[i].id==='inputFirstName' || inputs[i].id==='inputFirstName') &&  inputs[i].value.length<2) {
+                event.preventDefault();
+                event.stopPropagation();
+                inputs[i].classList.add('is-invalid')
+            }
+            else {
+                inputs[i].classList.remove('is-invalid')
+            }
+        }
+
         let emailInput = document.getElementById('email');
         let passwordInput = document.getElementById('password');
-        console.log(">>>Email:" + emailInput)
         if (validateEmail(emailInput.value)) {
             emailInput.classList.remove('is-invalid');
         } else {
@@ -15,12 +37,17 @@ window.addEventListener('DOMContentLoaded', function () {
             event.stopPropagation();
             emailInput.classList.add('is-invalid');
         }
-        if (passwordInput.value.length < 8) { //todo fix password length checking
-            passwordInput.classList.add('is-invalid');
+        if (passwordInput.value.length >= 8) { //todo fix password length checking
+            console.log("password valid length")
+            passwordInput.classList.remove('is-invalid');
+        }
+        else {
+            console.log("password invalid length")
             event.preventDefault();
             event.stopPropagation();
+            passwordInput.classList.add('is-invalid');
         }
-        form.classList.add('was-validated');
+        //form[0].classList.add('was-validated');
     })
 }, false);
 

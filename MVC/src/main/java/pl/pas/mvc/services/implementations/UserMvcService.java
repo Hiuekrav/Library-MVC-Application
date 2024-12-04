@@ -42,10 +42,9 @@ public class UserMvcService {
                 .exchange(
                         (clientRequest, clientResponse) -> {
                             if (!clientResponse.getStatusCode().is2xxSuccessful()) {
-                                String response = clientResponse.getBody().toString();
-                                System.out.println(">>>> "+response);
-                                List<ExceptionOutputDTO> list = objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
-                                return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
+                                ExceptionOutputDTO exceptionOutputDTO = objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
+                                System.out.println("exception: " +exceptionOutputDTO.message());
+                                return exceptionOutputDTO.message();
                             }
                             return "success";
                         }
