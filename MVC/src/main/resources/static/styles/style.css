@@ -1,0 +1,31 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+
+}
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    min-height: 95%;
+}
+.row {
+    flex: 1;
+    overflow: visible;
+}
+/*.modal {*/
+/*    position: fixed; !* Zapewnia, że modal jest względem ekranu, a nie rodzica *!*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    z-index: 1050; !* Domyślna wartość Bootstrap *!*/
+/*    display: block; !* Na wypadek problemów z widocznością *!*/
+/*}*/
+/*.modal-backdrop {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    z-index: 1040; !* Backdrop musi być pod modalem *!*/
+/*}*/
+footer {
+    flex-shrink: 0;
+}

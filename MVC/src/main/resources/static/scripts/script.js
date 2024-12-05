@@ -55,3 +55,15 @@ function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
 }
+
+
+function onSearchChange() {
+    let searchTerm = document.getElementById('search-input').value;
+    fetch('/search?term=' + searchTerm)
+        .then(response => response.json())
+        .then(data => {
+            // handle the search results here, e.g., update the UI
+            console.log(data);
+        })
+        .catch(error => console.error('Error:', error));
+}

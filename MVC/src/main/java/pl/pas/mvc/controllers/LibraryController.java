@@ -52,6 +52,9 @@ public class LibraryController {
             // todo zrobic aby nie czysciło formularza po powtórzeniu emaila?
             // redirectAttributes.addFlashAttribute("userCreateDTO", userCreateDTO); nie dziala :(
         }
+        else {
+            redirectAttributes.addFlashAttribute("success", "registered.successfully");
+        }
         return "redirect:/register";
     }
 

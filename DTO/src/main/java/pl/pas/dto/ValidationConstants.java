@@ -7,7 +7,7 @@ public class ValidationConstants {
 
     public static final String FIRST_NAME_BLANK = "first.name.blank";
     public static final String FIRST_NAME_TOO_SHORT = "first.name.too.short";
-    public static final String FIRST_NAME_TOO_LONG = "first.name.too.short";
+    public static final String FIRST_NAME_TOO_LONG = "first.name.too.long";
 
     public static final int LAST_NAME_MIN_LENGTH = 2;
     public static final int LAST_NAME_MAX_LENGTH = 100;
@@ -15,7 +15,7 @@ public class ValidationConstants {
     public static final String LAST_NAME_BLANK = "last.name.blank";
     public static final String USER_UUID_BLANK = "user.uuid.blank";
     public static final String LAST_NAME_TOO_SHORT = "last.name.too.short";
-    public static final String LAST_NAME_TOO_LONG = "last.name.too.short";
+    public static final String LAST_NAME_TOO_LONG = "last.name.too.long";
 
     public static final String EMAIL_INVALID_FORMAT = "email.invalid.format";
 
