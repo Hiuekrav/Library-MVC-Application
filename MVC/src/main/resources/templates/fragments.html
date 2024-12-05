@@ -30,10 +30,31 @@
                     <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline" th:onclick="|window.location.href='/books'|" th:text="#{books}"></span>
                 </a>
             </li>
-            <li>
-                <a href="#" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline" th:text="#{rents}"></span>
+            <li class="nav-item">
+                <a href="#" class="nav-link px-0 align-middle" data-bs-toggle="collapse" data-bs-target="#rentsSubmenu" aria-expanded="false">
+                    <i class="fs-4 bi-table"></i>
+                    <span class="ms-1 d-none d-sm-inline" th:text="#{rents}"></span>
                 </a>
+                <ul class="collapse nav flex-column ms-3" id="rentsSubmenu">
+                    <li class="nav-item">
+                        <a href="/rents/active" class="nav-link px-0">
+                            <i class="fs-5 bi-check-circle"></i>
+                            <span class="ms-1 d-none d-sm-inline" th:text="#{activeRents}"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/rents/archive" class="nav-link px-0">
+                            <i class="fs-5 bi-archive"></i>
+                            <span class="ms-1 d-none d-sm-inline" th:text="#{archiveRents}"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/rents/future" class="nav-link px-0">
+                            <i class="fs-5 bi-calendar-plus"></i>
+                            <span class="ms-1 d-none d-sm-inline" th:text="#{futureRents}"></span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

@@ -21,8 +21,8 @@
             </nav>
             <!--  div na zawartosc strony-->
             <div>
-                <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
-                <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+                <div class="alert alert-success" role="alert" th:if="${success}" th:text="#{${success}}"></div>
+                <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
                 <form th:action="@{/submit}" th:object="${userCreateDTO}" method="post" class="needs-validation" novalidate>
 
                     <div class="row">

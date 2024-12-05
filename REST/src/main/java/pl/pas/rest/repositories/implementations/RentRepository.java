@@ -1,8 +1,6 @@
 package pl.pas.rest.repositories.implementations;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.Filters;
@@ -114,6 +112,33 @@ public class RentRepository extends ObjectRepository<RentMgd> implements IRentRe
         archivedCollection.insertOne(rentMgd);
     }
 
+    //General
+
+    @Override
+    public List<RentMgd> findAllFuture() {
+        MongoCollection<RentMgd> rentMgdMongoCollection = super.getDatabase()
+                .getCollection(DatabaseConstants.RENT_ACTIVE_COLLECTION_NAME, DatabaseConstants.RENT_COLLECTION_TYPE);
+
+        Bson filters = Filters.and(Filters.gt(DatabaseConstants.RENT_BEGIN_TIME, LocalDateTime.now())
+        );
+        return rentMgdMongoCollection.find(filters).into(new ArrayList<>());
+    }
+
+    @Override
+    public List<RentMgd> findAllActive() {
+        MongoCollection<RentMgd> rentMgdMongoCollection = super.getDatabase()
+                .getCollection(DatabaseConstants.RENT_ACTIVE_COLLECTION_NAME, DatabaseConstants.RENT_COLLECTION_TYPE);
+        Bson filters = Filters.and(Filters.lt(DatabaseConstants.RENT_BEGIN_TIME, LocalDateTime.now())
+        );
+        return rentMgdMongoCollection.find(filters).into(new ArrayList<>());
+    }
+
+    @Override
+    public List<RentMgd> findAllArchive() {
+        MongoCollection<RentMgd> rentMgdMongoCollection = super.getDatabase()
+                .getCollection(DatabaseConstants.RENT_ARCHIVE_COLLECTION_NAME, DatabaseConstants.RENT_COLLECTION_TYPE);
+        return rentMgdMongoCollection.find().into(new ArrayList<>());
+    }
 
     // By rent
 

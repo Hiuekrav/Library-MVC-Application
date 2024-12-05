@@ -15,6 +15,7 @@ public class I18n {
     public static String APPLICATION_DATABASE_EXCEPTION = "application.database.operation.exception";
     public static String OBJECT_SAVE_NULL_VALUES_EXCEPTION = "application.database.null.values.save.exception";
     public static String BOOK_CHANGE_STATUS_EXCEPTION = "book.change.status.exception";
+    public static String BOOK_ALREADY_RENTED_EXCEPTION = "book.already.rented.exception";
     public static String BOOK_DELETE_EXCEPTION = "book.delete.exception";
     public static String BOOK_ARCHIVED_EXCEPTION = "book.archived.exception";
     public static String BOOK_STATUS_ALREADY_SET_EXCEPTION = "book.status.already.set.exception";

@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import pl.pas.mvc.services.interfaces.IBookService;
 import pl.pas.rest.model.Book;
 
+import java.net.ConnectException;
 import java.util.List;
 
 @NoArgsConstructor
 @Service
-public class BookMvcService implements IBookService {
+public class BookMvcService {
 
     @Value("${api.address}")
     private String apiAddress;
@@ -45,8 +45,26 @@ public class BookMvcService implements IBookService {
                                 return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
                             }
                             else {
-                                //todo connection error message?
-                                return null;
+                                throw new ConnectException("Failed to fetch data from API. Status: " + clientResponse.getStatusCode());
+                                //return null;
+                            }
+                        })
+
+                );
+    }
+
+    public List<Book> findAllByTitle(String title) {
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder.path("api/books")
+                        .queryParam("title", title).build())
+                .exchange(
+                        ((clientRequest, clientResponse) ->{
+                            if (clientResponse.getStatusCode() == HttpStatus.OK
+                                    || clientResponse.getStatusCode() == HttpStatus.NO_CONTENT)  {
+                                return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
+                            }
+                            else {
+                                throw new ConnectException("Failed to fetch data from API. Status: " + clientResponse.getStatusCode());
                             }
                         })
 

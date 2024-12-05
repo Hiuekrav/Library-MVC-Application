@@ -23,6 +23,12 @@ public interface IRentService extends IObjectService {
 
     List<Rent> findAllByReaderId(UUID readerId);
 
+    List<Rent> findAllFuture();
+
+    List<Rent> findAllActive();
+
+    List<Rent> findAllArchive();
+
     List<Rent> findAllByBookId(UUID bookId);
 
     List<Rent> findAllActiveByReaderId(UUID readerId);

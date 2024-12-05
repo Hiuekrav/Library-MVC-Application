@@ -46,7 +46,7 @@ public class UserMvcService {
                                 System.out.println("exception: " +exceptionOutputDTO.message());
                                 return exceptionOutputDTO.message();
                             }
-                            return "success";
+                            return "registered.successfully";
                         }
                 );
     }

@@ -14,7 +14,6 @@ import pl.pas.rest.services.interfaces.IRentService;
 import pl.pas.rest.utils.mappers.RentMapper;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +37,29 @@ public class RentController implements IRentController {
         Rent rent = rentService.createRentWithUnspecifiedTime(rentCreateShortDTO);
         return ResponseEntity.created(URI.create(rentCreatedURI.formatted(rent.getId())))
                 .body(RentMapper.toRentOutputDTO(rent));
+    }
+
+    // General
+
+    @Override
+    public ResponseEntity<?> findAllFuture() {
+        List<Rent> rents = rentService.findAllFuture();
+        if (rents.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(rents.stream().map(RentMapper::toRentOutputDTO).toList());
+    }
+
+    @Override
+    public ResponseEntity<?> findAllActive() {
+        List<Rent> rents = rentService.findAllActive();
+        if (rents.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(rents.stream().map(RentMapper::toRentOutputDTO).toList());
+    }
+
+    @Override
+    public ResponseEntity<?> findAllArchive() {
+        List<Rent> rents = rentService.findAllArchive();
+        if (rents.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(rents.stream().map(RentMapper::toRentOutputDTO).toList());
     }
 
     // By Rent
@@ -101,6 +123,8 @@ public class RentController implements IRentController {
         if (rents.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(rents.stream().map(RentMapper::toRentOutputDTO).toList());
     }
+
+
 
     @Override
     public ResponseEntity<?> findAllActiveByBookId(UUID bookId) {

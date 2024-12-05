@@ -1,13 +1,15 @@
 package pl.pas.rest.model.users;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import pl.pas.rest.mgd.users.UserMgd;
 import pl.pas.rest.model.AbstractEntity;
 import java.util.UUID;
 
-
+@NoArgsConstructor
 @Getter @Setter
 public class User extends AbstractEntity {
 

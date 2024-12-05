@@ -21,10 +21,19 @@ public interface IRentController {
     @PostMapping(path = "now",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> createRentNow(@Valid @RequestBody RentCreateShortDTO rentCreateShortDTO);
 
+    @GetMapping(path = "future", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> findAllFuture();
+
+    @GetMapping(path = "active", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> findAllActive();
+
+    @GetMapping(path = "archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<?> findAllArchive();
+
     @GetMapping("all")
     ResponseEntity<?> findAllRents();
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> findById(@PathVariable("id") UUID id);
 
     @GetMapping("reader/{id}/all")

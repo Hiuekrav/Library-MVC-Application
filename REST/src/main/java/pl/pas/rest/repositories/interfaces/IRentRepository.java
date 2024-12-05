@@ -27,6 +27,12 @@ public interface IRentRepository extends IObjectRepository<RentMgd> {
 
     List<RentMgd> findAllFutureByBookId(UUID bookId);
 
+    List<RentMgd> findAllFuture();
+
+    List<RentMgd> findAllActive();
+
+    List<RentMgd> findAllArchive();
+
     List<RentMgd> findAllArchivedByBookId(UUID bookId);
 
     RentMgd findAllActiveOrFutureByRentId(UUID rentId);

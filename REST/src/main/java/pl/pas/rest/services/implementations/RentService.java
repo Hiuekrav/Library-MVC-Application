@@ -1,8 +1,6 @@
 package pl.pas.rest.services.implementations;
 
-import com.mongodb.MongoWriteException;
 import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pas.dto.create.RentCreateDTO;
@@ -10,8 +8,8 @@ import pl.pas.dto.create.RentCreateShortDTO;
 import pl.pas.dto.update.RentUpdateDTO;
 import pl.pas.rest.exceptions.ApplicationDataIntegrityException;
 import pl.pas.rest.exceptions.book.BookArchivedException;
+import pl.pas.rest.exceptions.book.BookChangeStatusException;
 import pl.pas.rest.exceptions.book.BookNotFoundException;
-import pl.pas.rest.exceptions.rent.RentCreationException;
 import pl.pas.rest.exceptions.rent.RentDeleteException;
 import pl.pas.rest.exceptions.rent.RentInvalidTimeException;
 import pl.pas.rest.exceptions.rent.RentNotFoundException;
@@ -25,10 +23,6 @@ import pl.pas.rest.model.users.User;
 
 import pl.pas.rest.model.Rent;
 import pl.pas.rest.model.Book;
-import pl.pas.rest.repositories.MyMongoClient;
-import pl.pas.rest.repositories.implementations.BookRepository;
-import pl.pas.rest.repositories.implementations.RentRepository;
-import pl.pas.rest.repositories.implementations.UserRepository;
 import pl.pas.rest.repositories.interfaces.IBookRepository;
 import pl.pas.rest.repositories.interfaces.IRentRepository;
 import pl.pas.rest.repositories.interfaces.IUserRepository;
@@ -108,7 +102,13 @@ public class RentService extends ObjectService implements IRentService {
             throw new BookArchivedException();
         }
 
-        foundBook = bookRepository.changeRentedStatus(foundBook.getId(), true);
+        //foundBook = bookRepository.changeRentedStatus(foundBook.getId(), true);
+        try {
+            foundBook = bookRepository.changeRentedStatus(foundBook.getId(), true);
+        } catch (BookChangeStatusException e) {
+            throw new BookChangeStatusException(I18n.BOOK_ALREADY_RENTED_EXCEPTION);
+        }
+
 
         LocalDateTime maxEndTime = rentRepository
                 .findAllFutureByBookId(foundBook.getId()).stream()
@@ -139,15 +139,43 @@ public class RentService extends ObjectService implements IRentService {
         return new Rent(rentMgd, new User(userMgd), new Book(bookMgd));
     }
 
+    //General
+
     @Override
     public List<Rent> findAll() {
         List<RentMgd> allRents = rentRepository.findAll();
         allRents.forEach( (rentMgd) -> checkRentStatus(rentMgd.getId()));
-//        ClientSession clientSession = getClient().startSession();
-//        for (RentMgd rentMgd : allRents) {
-//            checkRentStatus(rentMgd.getId());
-//        }
         return rentRepository.findAll().stream().map(
+                (rentMgd -> new Rent(rentMgd, new User(rentMgd.getReader()),
+                        new Book(rentMgd.getBookMgd())))
+        ).toList();
+    }
+
+    @Override
+    public List<Rent> findAllFuture() {
+        List<RentMgd> allRents = rentRepository.findAllFuture();
+        allRents.forEach( (rentMgd) -> checkRentStatus(rentMgd.getId()));
+        return rentRepository.findAllFuture().stream().map(
+                (rentMgd -> new Rent(rentMgd, new User(rentMgd.getReader()),
+                        new Book(rentMgd.getBookMgd())))
+        ).toList();
+    }
+
+    @Override
+    public List<Rent> findAllActive() {
+        List<RentMgd> allRents = rentRepository.findAllActive();
+        allRents.forEach( (rentMgd) -> checkRentStatus(rentMgd.getId()));
+        return rentRepository.findAllActive().stream().map(
+                (rentMgd -> new Rent(rentMgd, new User(rentMgd.getReader()),
+                        new Book(rentMgd.getBookMgd())))
+        ).toList();
+    }
+
+    @Override
+    public List<Rent> findAllArchive() {
+        List<RentMgd> allRents = rentRepository.findAllArchive();
+        allRents.forEach( (rentMgd) -> checkRentStatus(rentMgd.getId()));
+        return rentRepository.findAllArchive().stream().map(
                 (rentMgd -> new Rent(rentMgd, new User(rentMgd.getReader()),
                         new Book(rentMgd.getBookMgd())))
         ).toList();
@@ -175,6 +203,7 @@ public class RentService extends ObjectService implements IRentService {
                         new Book(rentMgd.getBookMgd())))
         ).toList();
     }
+
 
     @Override
     public List<Rent> findAllActiveByBookId(UUID bookId) {
@@ -279,23 +308,27 @@ public class RentService extends ObjectService implements IRentService {
 
     private void checkRentStatus(UUID rentId) {
         RentMgd rentMgd;
+        BookMgd foundBook;
         try {
             rentMgd = rentRepository.findActiveById(rentId);
+            foundBook = bookRepository.findById(rentMgd.getBookMgd().getId());
         }
-        catch (RentNotFoundException e){
+        catch (RentNotFoundException | BookNotFoundException e){
             return;
         }
+
+
         ClientSession session = super.getClient().startSession();
         session.startTransaction();
         LocalDateTime beginTime = rentMgd.getBeginTime();
         LocalDateTime endTime = rentMgd.getEndTime();
         if (LocalDateTime.now().isAfter(beginTime) && LocalDateTime.now().isBefore(endTime)
-                && (rentMgd.getBookMgd().getRented() != 1 )) {
+                && (foundBook.getRented() != 1 )) {
             this.bookRepository.changeRentedStatus(rentMgd.getBookMgd().getId(), true);
             //rentMgd.getBookMgd().setRented(1);
         }
         else if (LocalDateTime.now().isAfter(endTime)
-                && (rentMgd.getBookMgd().getRented() != 0) ) {
+                && (foundBook.getRented() != 0) ) {
             this.bookRepository.changeRentedStatus(rentMgd.getBookMgd().getId(), false);
             //rentMgd.getBookMgd().setRented(0);
             rentRepository.save(rentMgd);

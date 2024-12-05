@@ -1,6 +1,7 @@
 package pl.pas.rest.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import pl.pas.rest.mgd.RentMgd;
@@ -9,6 +10,7 @@ import pl.pas.rest.model.users.User;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter @Setter
 public class Rent extends AbstractEntity {
 

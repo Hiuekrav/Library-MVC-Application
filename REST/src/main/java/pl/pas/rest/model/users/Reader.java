@@ -2,6 +2,7 @@ package pl.pas.rest.model.users;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import pl.pas.rest.mgd.users.ReaderMgd;
 
 import java.util.UUID;
