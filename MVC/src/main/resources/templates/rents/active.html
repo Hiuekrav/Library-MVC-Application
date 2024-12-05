@@ -55,9 +55,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-6"><button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#endRentModal"
-                                                           th:attr="data-bs-rent-id=${rent.id}" th:text="#{button.end.rent}+':'"></button></div>
+                                                           th:attr="data-bs-rent-id=${rent.id}" th:text="#{end.rent}+':'"></button></div>
                                 <div class="col-6"><button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#removeRentModal"
-                                                           th:attr="data-bs-rent-id=${rent.id}" th:text="#{button.remove.rent}+':'"></button></div>
+                                                           th:attr="data-bs-rent-id=${rent.id}" th:text="#{remove.rent}+':'"></button></div>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="endRentModalLabel">End Rent</h5>
+                    <h5 class="modal-title" id="endRentModalLabel" th:text="#{end.rent}"></h5>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
