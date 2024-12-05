@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.pas.dto.create.RentCreateDTO;
 import pl.pas.dto.create.UserCreateDTO;
+import pl.pas.mvc.DTO.RentForm;
 import pl.pas.mvc.services.implementations.BookMvcService;
 import pl.pas.mvc.services.implementations.UserMvcService;
 import pl.pas.rest.model.Book;
@@ -32,7 +34,9 @@ public class LibraryController {
     @GetMapping("/books")
     public String getBooksPage(Model model) {
         List<Book> books = bookMvcService.findAll();
+        RentForm rentForm =RentForm.builder().build();
         model.addAttribute("books", books);
+        model.addAttribute("rentForm", rentForm);
         return "books";
     }
 
@@ -57,5 +61,20 @@ public class LibraryController {
         }
         return "redirect:/register";
     }
+
+    @PostMapping("/rent")
+    public String rentBook(@Valid @ModelAttribute RentForm rentForm, RedirectAttributes redirectAttributes) {
+        System.out.println("BookId" + rentForm.bookId());
+        System.out.println("Email" + rentForm.email());
+        System.out.println("BeginTime" + rentForm.beginTime());
+        System.out.println("EndTime" + rentForm.endTime());
+        //redirectAttributes.addFlashAttribute("error", "Costam");
+
+        return "redirect:/books";
+
+    }
+
+
+
 
 }

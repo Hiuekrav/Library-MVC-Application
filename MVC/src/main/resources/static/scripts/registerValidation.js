@@ -10,9 +10,6 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log(inputs)
 
         for (let i=0; i <inputs.length; i++) {
-            console.log("i:" +i)
-            console.log("input id:" +inputs[i].id)
-            console.log("input value:" +inputs[i].value)
             if (inputs[i].value === '') {
                 event.preventDefault();
                 event.stopPropagation();
