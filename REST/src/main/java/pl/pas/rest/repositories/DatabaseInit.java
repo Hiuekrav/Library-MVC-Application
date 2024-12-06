@@ -67,6 +67,10 @@ import java.time.LocalDateTime;
                 388, Genre.FANTASY, LocalDate.of(2016, 5, 17),
                 0, false));
 
+        BookMgd bookMgd4 = bookRepository.save(new BookMgd(null, "GNU/Linux THE MAN-PAGES BOOK", "Rik Faith ",
+                3642, Genre.HORROR, LocalDate.of(1993, 6, 16),
+                0, false));
+
         Rent rent = new Rent(LocalDateTime.now().plusHours(1),
                 LocalDateTime.now().plusHours(3), new User(reader), new Book(bookMgd1));
 

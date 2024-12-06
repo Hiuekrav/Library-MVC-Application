@@ -22,7 +22,7 @@
           <li class="breadcrumb-item active" aria-current="page"><a href="#" th:text="#{books}"></a></li>
         </ol>
       </nav>
-      <input class="form-control mb-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+      <input class="form-control mb-sm-2" type="search" th:placeholder="#{search.placeholder}" aria-label="Search" id="searchInput">
       <div class="alert alert-success" role="alert" th:if="${success}" th:text="#{${success}}"></div>
       <!--  div na zawartosc strony-->
         <!-- Book cards -->
@@ -32,49 +32,47 @@
             <div class="card-body">
 
               <div class="row">
-                <div class="col-4"><strong>Title:</strong></div>
+                <div class="col-4"><strong th:text="#{book.title}+':'"></strong></div>
                 <div class="col-8" th:text="${book.title}"></div>
               </div>
 
               <div class="row">
-                <div class="col-4"><strong>Author:</strong></div>
+                <div class="col-4"><strong th:text="#{book.author}+':'"></strong></div>
                 <div class="col-8" th:text="${book.author}"></div>
               </div>
 
               <div class="row">
-                <div class="col-4"><strong>Number of pages:</strong></div>
+                <div class="col-4"><strong th:text="#{book.number.of.pages}+':'"></strong></div>
                 <div class="col-8" th:text="${book.numberOfPages}"></div>
               </div>
               <div class="row">
-                <div class="col-4"><strong>Genre</strong></div>
+                <div class="col-4"><strong th:text="#{book.genre}+':'"></strong></div>
                 <div class="col-8" th:text="${book.genre}"></div>
               </div>
               <div class="row">
-                <div class="col-4"><strong>Published date</strong></div>
+                <div class="col-4"><strong th:text="#{book.published.date}+':'"></strong></div>
                 <div class="col-8" th:text="${book.publishedDate}"></div>
               </div>
               <div class="row">
-                <div class="col-4"><strong>Rented</strong></div>
-                <div class="col-8" th:text="${book.rented}"></div>
+                <div class="col-4"><strong th:text="#{book.rented}+':'"></strong></div>
+                <div class="col-8" th:text="${book.rented} ? #{confirmation.yes} : #{confirmation.no}"></div>
               </div>
               <div class="row">
-                <div class="col-4"><strong>Archived</strong></div>
-                <div class="col-8" th:text="${book.archive}"></div>
+                <div class="col-4"><strong th:text="#{book.archived}+':'"></strong></div>
+                <div class="col-8" th:text="${book.archive} ? #{confirmation.yes} : #{confirmation.no}"></div>
               </div>
               <div class="row">
                 <div class="col-6"><button type="button" class="btn btn-outline-info"  data-bs-toggle="modal" data-bs-target="#rentModal"
-                                           th:attr="data-bs-book-id=${book.id}">Rent</button></div>
+                                           th:attr="data-bs-book-id=${book.id}" th:text="#{book.rent}"></button></div>
                 <div class="col-6"><button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#rentNowModal"
-                                           th:attr="data-bs-book-id=${book.id}">Rent now</button></div>
+                                           th:attr="data-bs-book-id=${book.id}" th:text="#{book.rent.now}"></button></div>
               </div>
             </div>
           </div>
         </div>
       </div>
   </div>
-
-
-    </div>
+</div>
 
   <div id="modalRentTrigger" th:attr="data-show-modal=${showRentModal}"></div>
   <div id="modalRentNowTrigger" th:attr="data-show-modal=${showRentNowModal}"></div>
@@ -83,7 +81,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="rentModalLabel">Rent a Book</h5>
+            <h5 class="modal-title" id="rentModalLabel" th:text="#{rent.a.book}"></h5>
           </div>
           <div class="modal-body">
             <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
@@ -95,17 +93,17 @@
                 <div class="invalid-feedback" th:text="#{form.email.invalid.format}"></div>
               </div>
               <div class="form-group">
-                <label for="begin-time" th:field="*{beginTime}" class="col-form-label">Begin Time:</label>
+                <label for="begin-time" th:field="*{beginTime}" class="col-form-label" th:text="#{begin.time}+':'"></label>
                 <input type="datetime-local" class="form-control" id="begin-time" name="beginTime">
-                <div class="invalid-feedback">Begin time invalid</div>
+                <div class="invalid-feedback" th:text="#{begin.time.invalid}"></div>
               </div>
               <div class="form-group">
-                <label for="end-time" th:field="*{endTime}" class="col-form-label">End Time:</label>
+                <label for="end-time" th:field="*{endTime}" class="col-form-label" th:text="#{end.time}+':'"></label>
                 <input type="datetime-local" class="form-control" id="end-time" name="endTime">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{close}"></button>
+                <button type="submit" class="btn btn-primary" th:text="#{save}"></button>
               </div>
             </form>
           </div>
@@ -117,7 +115,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="rentNowModalLabel">Rent a Book</h5>
+            <h5 class="modal-title" id="rentNowModalLabel" th:text="#{rent.a.book}"></h5>
           </div>
           <div class="modal-body">
             <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
@@ -129,15 +127,31 @@
                 <div class="invalid-feedback" th:text="#{form.email.invalid.format}"></div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{close}"></button>
+                <button type="submit" class="btn btn-primary" th:text="#{save}"></button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
+
+  <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmationModalLabel" th:text="#{confirmation}"></h5>
+        </div>
+        <div class="modal-body" th:text="#{confirmation.message}"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{cancel}"></button>
+          <button type="button" class="btn btn-primary" id="confirmButton">OK</button>
+        </div>
+      </div>
+    </div>
   </div>
+
+</div>
 <div th:replace="fragments :: footer"></div>
 </body>
 </html>

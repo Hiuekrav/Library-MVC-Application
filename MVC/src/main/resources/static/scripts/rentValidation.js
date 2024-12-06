@@ -2,17 +2,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Znajdź modal
     const rentModal = document.getElementById('rentModal');
-    const rentForm = rentModal.querySelector('form'); // Formularz w modalu
-    const emailInput = rentModal.querySelector('#email'); // Pole e-mail
-    const beginTimeInput = rentModal.querySelector('#begin-time'); // Pole beginTime
-    const endTimeInput = rentModal.querySelector('#end-time'); // Pole endTime
+    const rentForm = rentModal.querySelector('form');
+    const emailInput = rentModal.querySelector('#email');
+    const beginTimeInput = rentModal.querySelector('#begin-time');
+    const endTimeInput = rentModal.querySelector('#end-time');
 
-    // Dodaj event listener do momentu otwierania modala
     rentModal.addEventListener('show.bs.modal', function (event) {
-        // Przyciski, które wywołały modal
+        // Przycisk, który wywołał modal
         const button = event.relatedTarget;
 
-        // Pobierz wartość bookId z atrybutu data-bs-book-id
         const bookId = button.getAttribute('data-bs-book-id');
 
         // Znajdź ukryte pole i ustaw jego wartość
@@ -52,10 +50,16 @@ document.addEventListener('DOMContentLoaded', function () {
             endTimeInput.classList.remove('is-invalid');
         }
 
-        // Jeśli wszystkie walidacje się powiodły, wyślij formularz
+        const confirmButton = document.getElementById('confirmButton');
         if (isValid) {
-            rentForm.submit();
+            var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'), {
+                keyboard: false
+            });
+            confirmationModal.show();
         }
+        confirmButton.addEventListener('click', function () {
+            rentForm.submit();
+        });
     });
 });
 

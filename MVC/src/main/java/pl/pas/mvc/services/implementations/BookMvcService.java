@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClient;
 import pl.pas.rest.model.Book;
 
 import java.net.ConnectException;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -59,12 +60,11 @@ public class BookMvcService {
                         .queryParam("title", title).build())
                 .exchange(
                         ((clientRequest, clientResponse) ->{
-                            if (clientResponse.getStatusCode() == HttpStatus.OK
-                                    || clientResponse.getStatusCode() == HttpStatus.NO_CONTENT)  {
+                            if (clientResponse.getStatusCode() == HttpStatus.OK)  {
                                 return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
                             }
                             else {
-                                throw new ConnectException("Failed to fetch data from API. Status: " + clientResponse.getStatusCode());
+                                return new ArrayList<>();
                             }
                         })
 

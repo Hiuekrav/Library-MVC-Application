@@ -12,9 +12,8 @@ public class InternationalizationConfig {
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 
-        // Nazwa pliku bez rozszerzenia
-        messageSource.setBasename("messages"); // Wskazuje na plik messages_pl.properties
-        messageSource.setDefaultEncoding("UTF-8"); // Używaj kodowania UTF-8
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("UTF-8");
         messageSource.setFallbackToSystemLocale(false); // Jeśli tłumaczenie nie istnieje, nie używaj systemowego języka
         return messageSource;
     }

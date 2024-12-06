@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Znajdź modal
     const rentNowModal = document.getElementById('rentNowModal');
-    const rentNowForm = rentNowModal.querySelector('form'); // Formularz w modalu
-    const emailInput = rentNowModal.querySelector('#rentNowEmail'); // Pole e-mail
+    const rentNowForm = rentNowModal.querySelector('form');
+    const emailInput = rentNowModal.querySelector('#rentNowEmail');
 
-    // Dodaj event listener do momentu otwierania modala
     rentNowModal.addEventListener('show.bs.modal', function (event) {
-        // Przyciski, które wywołały modal
+        // Przycisk, który wywołał modal
         const button = event.relatedTarget;
 
-        // Pobierz wartość bookId z atrybutu data-bs-book-id
         const bookId = button.getAttribute('data-bs-book-id');
 
         // Znajdź ukryte pole i ustaw jego wartość
@@ -36,10 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
             emailInput.classList.remove('is-invalid');
         }
 
-        // Jeśli wszystkie walidacje się powiodły, wyślij formularz
+        const confirmButton = document.getElementById('confirmButton');
         if (isValid) {
-            rentNowForm.submit();
+            var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'), {
+                keyboard: false
+            });
+            confirmationModal.show();
         }
+        confirmButton.addEventListener('click', function () {
+            rentNowForm.submit();
+        });
     });
 });
 

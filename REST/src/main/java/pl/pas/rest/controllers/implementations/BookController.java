@@ -49,14 +49,14 @@ public class BookController implements IBookController {
     @Override
     public ResponseEntity<?> findByTitle(String title) {
         List<Book> foundBooks = bookService.findBookByTitle(title);
-        if (foundBooks.isEmpty()) return ResponseEntity.notFound().build();
+        if (foundBooks.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok().body(foundBooks.stream().map(BookMapper::toBookOutputDTO));
     }
 
     @Override
     public ResponseEntity<?> findAll() {
         List<Book> foundBooks = bookService.findAll();
-        if (foundBooks.isEmpty()) return ResponseEntity.notFound().build();
+        if (foundBooks.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok().body(foundBooks.stream().map(BookMapper::toBookOutputDTO));
     }
 
