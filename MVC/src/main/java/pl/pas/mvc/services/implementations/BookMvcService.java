@@ -41,13 +41,11 @@ public class BookMvcService {
                 .uri("api/books/all")
                 .exchange(
                         ((clientRequest, clientResponse) ->{
-                            if (clientResponse.getStatusCode() == HttpStatus.OK
-                                    || clientResponse.getStatusCode() == HttpStatus.NO_CONTENT)  {
+                            if (clientResponse.getStatusCode() == HttpStatus.OK)  {
                                 return objectMapper.readValue(clientResponse.getBody(), new TypeReference<>() {});
                             }
                             else {
-                                throw new ConnectException("Failed to fetch data from API. Status: " + clientResponse.getStatusCode());
-                                //return null;
+                                return new ArrayList<>();
                             }
                         })
 

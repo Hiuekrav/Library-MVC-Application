@@ -21,6 +21,8 @@
                 </ol>
             </nav>
             <!-- Rent cards -->
+            <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
+            <div class="alert alert-success" role="alert" th:if="${success}" th:text="#{${success}}"></div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" th:each="rent : ${active}">
                     <div class="card h-100">
@@ -57,7 +59,7 @@
                             <div class="row">
                                 <div class="col-6"><button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#endRentModal"
                                                            th:attr="data-bs-rent-id=${rent.id}" th:text="#{end.rent}"></button></div>
-                                <div class="col-6"><button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#removeRentModal"
+                                <div class="col-6"><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeRentModal"
                                                            th:attr="data-bs-rent-id=${rent.id}" th:text="#{remove.rent}"></button></div>
                             </div>
                         </div>
@@ -75,7 +77,6 @@
                     <h5 class="modal-title" id="endRentModalLabel" th:text="#{end.rent}"></h5>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
                     <form th:action="@{/rents/endRent}" th:object="${endRemoveRentForm}" method="post">
                         <input type="hidden" th:field="*{rentId}" id="rent-id" name="rentId">
                         <div th:text="#{confirmation.message}"></div>
@@ -97,7 +98,6 @@
                     <h5 class="modal-title" id="removeRentModalLabel" th:text="#{remove.rent}"></h5>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{${error}}"></div>
                     <form th:action="@{/rents/removeRent}" th:object="${endRemoveRentForm}" method="post">
                         <input type="hidden" name="originPath" th:value="${currentPath}">
                         <input type="hidden" th:field="*{rentId}" id="removeRent-id" name="rentId">

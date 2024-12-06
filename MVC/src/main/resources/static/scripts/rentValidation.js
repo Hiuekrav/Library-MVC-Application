@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Znajdź modal
+
     const rentModal = document.getElementById('rentModal');
     const rentForm = rentModal.querySelector('form');
     const emailInput = rentModal.querySelector('#email');
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const endTimeInput = rentModal.querySelector('#end-time');
 
     rentModal.addEventListener('show.bs.modal', function (event) {
-        // Przycisk, który wywołał modal
+
         const button = event.relatedTarget;
 
         const bookId = button.getAttribute('data-bs-book-id');
@@ -18,18 +18,17 @@ document.addEventListener('DOMContentLoaded', function () {
         bookIdInput.value = bookId;
     });
 
-    // Funkcja do walidacji e-maila
+
     function isValidEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailPattern.test(email);
     }
 
-    // Obsługa zdarzenia submit formularza
     rentForm.addEventListener('submit', async function (event) {
         event.preventDefault(); // Zatrzymanie wysyłania formularza
         let isValid = true;
 
-        // Walidacja e-maila
+
         if (!isValidEmail(emailInput.value)) {
             isValid = false;
             emailInput.classList.add('is-invalid');
@@ -37,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             emailInput.classList.remove('is-invalid');
         }
 
-        // Walidacja dat
+
         const beginTime = new Date(beginTimeInput.value);
         const endTime = new Date(endTimeInput.value);
 

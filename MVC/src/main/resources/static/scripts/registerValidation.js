@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 valid = false;
                 inputs[i].classList.add('is-invalid')
             }
-            else if( (inputs[i].id==='inputFirstName' || inputs[i].id==='inputFirstName') &&  inputs[i].value.length<2) {
+            else if( (inputs[i].id==='inputFirstName' || inputs[i].id==='inputLastName') &&  inputs[i].value.length<2) {
                 valid = false;
                 inputs[i].classList.add('is-invalid')
             }

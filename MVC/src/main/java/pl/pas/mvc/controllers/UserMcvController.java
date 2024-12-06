@@ -32,7 +32,6 @@ public class UserMcvController {
 
         if (!result.equals("registered.successfully")) {
             redirectAttributes.addFlashAttribute("error", result);
-            // todo zrobic aby nie czysciło formularza po powtórzeniu emaila?
             redirectAttributes.addFlashAttribute("userCreateDTO", userCreateDTO);
         }
         else {
