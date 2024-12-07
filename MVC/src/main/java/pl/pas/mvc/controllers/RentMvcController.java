@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.pas.mvc.DTO.EndRemoveRentForm;
-import pl.pas.mvc.DTO.RentForm;
-import pl.pas.mvc.DTO.RentNowForm;
+import pl.pas.mvc.forms.EndRemoveRentForm;
+import pl.pas.mvc.forms.RentForm;
+import pl.pas.mvc.forms.RentNowForm;
 import pl.pas.mvc.services.implementations.RentMvcService;
 
 import java.util.Objects;

@@ -13,12 +13,11 @@ import pl.pas.dto.create.RentCreateDTO;
 import pl.pas.dto.create.RentCreateShortDTO;
 import pl.pas.dto.output.ExceptionOutputDTO;
 import pl.pas.dto.output.RentOutputDTO;
-import pl.pas.mvc.DTO.EndRemoveRentForm;
-import pl.pas.mvc.DTO.RentForm;
-import pl.pas.mvc.DTO.RentNowForm;
+import pl.pas.mvc.forms.EndRemoveRentForm;
+import pl.pas.mvc.forms.RentForm;
+import pl.pas.mvc.forms.RentNowForm;
 import pl.pas.rest.model.users.User;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 

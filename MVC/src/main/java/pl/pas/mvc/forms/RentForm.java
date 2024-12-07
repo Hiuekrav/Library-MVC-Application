@@ -1,4 +1,4 @@
-package pl.pas.mvc.DTO;
+package pl.pas.mvc.forms;
 
 import lombok.Builder;
 

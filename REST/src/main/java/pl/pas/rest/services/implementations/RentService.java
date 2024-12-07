@@ -300,6 +300,8 @@ public class RentService extends ObjectService implements IRentService {
         readerSession.startTransaction();
         checkRentStatus(id);
         RentMgd rent = rentRepository.findActiveById(id);
+        rent.setEndTime(LocalDateTime.now());
+        rentRepository.save(rent);
         bookRepository.changeRentedStatus(rent.getBookMgd().getId(), false);
         rentRepository.moveRentToArchived(id);
         readerSession.commitTransaction();
